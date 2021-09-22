@@ -24,10 +24,18 @@ class En_Window(QMainWindow, EnWindow):
         self.setupUi(self)
         self.widgets_adjust()
         self.setWindowTitle("Вход в систему")
-        self.setMinimumHeight(250)
+        self.setMinimumHeight(280)
         # self.setMinimumWidth(110)
 
     def widgets_adjust(self):
+        # init NameTextEdit parameters
+        self.NameTextEdit.setMaximumHeight(30)
+        self.NameTextEdit.setMinimumHeight(30)
+        self.NameTextEdit.setPlaceholderText("Имя пользователя")
+        # init PasswordTextEdit parameters
+        self.PasswordTextEdit.setMaximumHeight(30)
+        self.PasswordTextEdit.setMinimumHeight(30)
+        self.PasswordTextEdit.setPlaceholderText("Пароль")
         # init EntranceButton parameters
         self.EntranceButton.setMaximumHeight(30)
         self.EntranceButton.setMinimumHeight(30)
@@ -45,14 +53,6 @@ class En_Window(QMainWindow, EnWindow):
         self.CancelButton.setMinimumWidth(100)
         self.CancelButton.setText("Отмена")
         self.CancelButton.setStyleSheet("background-color: red;")
-        # init NameTextEdit parameters
-        self.NameTextEdit.setMaximumHeight(30)
-        self.NameTextEdit.setMinimumHeight(30)
-        self.NameTextEdit.setToolTip("Имя пользователя")
-        # init PasswordTextEdit parameters
-        self.PasswordTextEdit.setMaximumHeight(30)
-        self.PasswordTextEdit.setMinimumHeight(30)
-        self.PasswordTextEdit.setToolTip("Пароль")
         # init RememberCheckBox parameters
         self.RememberCheckBox.setMaximumHeight(30)
         self.RememberCheckBox.setMinimumHeight(30)
@@ -61,18 +61,23 @@ class En_Window(QMainWindow, EnWindow):
         self.ShowCheckBox.setMaximumHeight(30)
         self.ShowCheckBox.setMinimumHeight(30)
         self.ShowCheckBox.setText("Показать пароль")
-        # init RememberCheckBox parameters & actions
-        self.RememberCheckBox.stateChanged.connect(self.clicked_rem_chb)
-        # init ShowCheckBox parameters & actions
-        self.ShowCheckBox.stateChanged.connect(self.clicked_sh_chb)
-        # init label parameters
-        self.label.setText("Забыли пароль?")
-        # self.label.setOpenExternalLinks(True)
+        # init ForgotPassButton parameters
+        self.ForgotPassButton.setText("Забыли пароль?")
+        self.ForgotPassButton.setStyleSheet("text-decoration: underline;"
+                                            "background-color: rgba(255,255,255,0);"
+                                            "border:none;"
+                                            "color: blue;")
+        self.ForgotPassButton.setMaximumHeight(30)
+        self.ForgotPassButton.setMinimumHeight(30)
+        self.ForgotPassButton.setMinimumWidth(100)
 
-        # actions when buttons clicked
+        # actions when buttons & checkbox clicked
         self.EntranceButton.clicked.connect(self.clicked_en_b)
         self.RegistrationButton.clicked.connect(self.clicked_reg_b)
         self.CancelButton.clicked.connect(self.clicked_c_b)
+        self.RememberCheckBox.stateChanged.connect(self.clicked_rem_chb)
+        self.ShowCheckBox.stateChanged.connect(self.clicked_sh_chb)
+        self.ForgotPassButton.clicked.connect(self.clicked_f_b)
 
     def click_button(self, label):
         print('The \"', label, '\" button is pressed!')
@@ -98,6 +103,13 @@ class En_Window(QMainWindow, EnWindow):
         else:
             self.setWindowTitle("Вход в систему")
 
+    def clicked_f_b(self):
+        self.click_button(self.CancelButton.text())
+        self.ForgotPassButton.setStyleSheet("text-decoration: underline;"
+                                            "background-color: rgba(255,255,255,0);"
+                                            "border:none;"
+                                            "color: fuchsia;")
+        
 
 class Pas_Window(QMainWindow, PasWindow):
     def __init__(self):
