@@ -1,8 +1,9 @@
 # Python version 3.8
 import mariadb
 from PyQt5 import uic
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
+from PyQt5.QtCore import Qt
 
 from en_win import Ui_MainWindow as EnWindow
 from pas_win import Ui_MainWindow as PasWindow
@@ -22,6 +23,9 @@ class En_Window(QMainWindow, EnWindow):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.widgets_adjust()
+        self.setWindowTitle("Вход в систему")
+        self.setMinimumHeight(250)
+        # self.setMinimumWidth(110)
 
     def widgets_adjust(self):
         # init EntranceButton parameters
@@ -57,11 +61,42 @@ class En_Window(QMainWindow, EnWindow):
         self.ShowCheckBox.setMaximumHeight(30)
         self.ShowCheckBox.setMinimumHeight(30)
         self.ShowCheckBox.setText("Показать пароль")
-        # init parameters
-        # self.label
+        # init RememberCheckBox parameters & actions
+        self.RememberCheckBox.stateChanged.connect(self.clicked_rem_chb)
+        # init ShowCheckBox parameters & actions
+        self.ShowCheckBox.stateChanged.connect(self.clicked_sh_chb)
+        # init label parameters
+        self.label.setText("Забыли пароль?")
+        # self.label.setOpenExternalLinks(True)
 
-    def clicked(self):
-        pass
+        # actions when buttons clicked
+        self.EntranceButton.clicked.connect(self.clicked_en_b)
+        self.RegistrationButton.clicked.connect(self.clicked_reg_b)
+        self.CancelButton.clicked.connect(self.clicked_c_b)
+
+    def click_button(self, label):
+        print('The \"', label, '\" button is pressed!')
+
+    def clicked_en_b(self):
+        self.click_button(self.EntranceButton.text())
+
+    def clicked_reg_b(self):
+        self.click_button(self.RegistrationButton.text())
+
+    def clicked_c_b(self):
+        self.click_button(self.CancelButton.text())
+
+    def clicked_rem_chb(self, state):
+        if state == Qt.Checked:
+            self.setWindowTitle('QCheckBox -> remember')
+        else:
+            self.setWindowTitle("Вход в систему")
+
+    def clicked_sh_chb(self, state):
+        if state == Qt.Checked:
+            self.setWindowTitle('QCheckBox -> show')
+        else:
+            self.setWindowTitle("Вход в систему")
 
 
 class Pas_Window(QMainWindow, PasWindow):
@@ -87,8 +122,18 @@ class Pas_Window(QMainWindow, PasWindow):
         self.CancelPushButton.setText("Отмена")
         self.CancelPushButton.setStyleSheet("background-color: red;")
 
-    def clicked(self):
-        pass
+        # actions when buttons clicked
+        self.ChangePasswordPushButton.clicked.connect(self.clicked_ch_p_b)
+        self.CancelPushButton.clicked.connect(self.clicked_c_b)
+
+    def click_button(self, label):
+        print('The \"', label, '\" button is pressed!')
+
+    def clicked_ch_p_b(self):
+        self.click_button(self.ChangePasswordPushButton.text())
+
+    def clicked_c_b(self):
+        self.click_button(self.CancelPushButton.text())
 
 
 class Reg_Window(QMainWindow, RegWindow):
@@ -124,19 +169,29 @@ class Reg_Window(QMainWindow, RegWindow):
         self.CancelPushButton.setText("Отмена")
         self.CancelPushButton.setStyleSheet("background-color: red;")
 
-    def clicked(self):
-        pass
+        # actions when buttons clicked
+        self.OkPushButton.clicked.connect(self.clicked_ok_b)
+        self.CancelPushButton.clicked.connect(self.clicked_c_b)
+
+    def click_button(self, label):
+        print('The \"', label, '\" button is pressed!')
+
+    def clicked_ok_b(self):
+        self.click_button(self.OkPushButton.text())
+
+    def clicked_c_b(self):
+        self.click_button(self.CancelPushButton.text())
 
 
 def application():
     app = QApplication(sys.argv)
-    # window = En_Window()
+    window = En_Window()
     # window = Pas_Window()
-    window = Reg_Window()
+    # window = Reg_Window()
 
-    window.setWindowTitle("simple window")
+    # window.setWindowTitle("simple window")
     window.setGeometry(1300, 250, 350, 200)
-    window.setMinimumHeight(250)
+    # window.setMinimumHeight(250)
     # window.setMaximumHeight(250)
 
     window.show()
