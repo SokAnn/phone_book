@@ -2,7 +2,7 @@
 import mariadb
 # from PyQt5 import uic
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit, QMessageBox
 from PyQt5.QtCore import Qt
 
 from en_win import Ui_MainWindow as EnWindow
@@ -17,9 +17,6 @@ import sys
 def print_hi(name):
     print('Hi, ' + name)
 
-# 1 2 3 4
-choosing_windows = ['', '', '', '']
-
 # entrance window
 class En_Window(QMainWindow, EnWindow):
     switch_window = QtCore.pyqtSignal(str)
@@ -29,48 +26,67 @@ class En_Window(QMainWindow, EnWindow):
         self.setupUi(self)
         self.widgets_adjust()
         self.setWindowTitle("Вход в систему")
-        self.setMinimumHeight(280)
+        self.setMinimumHeight(270)
+        self.setMaximumHeight(270)
+        self.setMinimumWidth(320)
+        self.setMaximumWidth(320)
         self.PasswordlineEdit.setEchoMode(QLineEdit.EchoMode(2))
-        # self.setMinimumWidth(110)
 
     def widgets_adjust(self):
         # init NamelineEdit parameters
         self.NamelineEdit.setMaximumHeight(30)
         self.NamelineEdit.setMinimumHeight(30)
+        self.NamelineEdit.setMinimumWidth(50)
         self.NamelineEdit.setPlaceholderText("Имя пользователя")
+        self.NamelineEdit.setStyleSheet("font-size: 12px;")
         # init PasswordlineEdit parameters
         self.PasswordlineEdit.setMaximumHeight(30)
         self.PasswordlineEdit.setMinimumHeight(30)
+        self.PasswordlineEdit.setMinimumWidth(50)
         self.PasswordlineEdit.setPlaceholderText("Пароль")
+        self.PasswordlineEdit.setStyleSheet("font-size: 12px;")
         # init EntranceButton parameters
-        self.EntranceButton.setMaximumHeight(30)
         self.EntranceButton.setMinimumHeight(30)
-        self.EntranceButton.setMinimumWidth(100)
+        self.EntranceButton.setMinimumWidth(60)
         self.EntranceButton.setText("Войти")
-        self.EntranceButton.setStyleSheet("background-color: green;")
+        self.EntranceButton.setStyleSheet("border-radius: 8px;"
+                                          "color: #000000;"
+                                          "background: #66ff66;"
+                                          "font-size: 12px;"
+                                          "border-bottom: 3px solid #00cc00;")
         # init RegistrationButton parameters
-        self.RegistrationButton.setMaximumHeight(30)
         self.RegistrationButton.setMinimumHeight(30)
-        self.RegistrationButton.setMinimumWidth(100)
+        self.RegistrationButton.setMinimumWidth(60)
         self.RegistrationButton.setText("Регистрация")
+        self.RegistrationButton.setStyleSheet("border-radius: 8px;"
+                                              "color: #000000;"
+                                              "background: #d4d2d6;"
+                                              "font-size: 12px;"
+                                              "border-bottom: 3px solid #b9b5bd;")
         # init CancelButton parameters
-        self.CancelButton.setMaximumHeight(30)
         self.CancelButton.setMinimumHeight(30)
-        self.CancelButton.setMinimumWidth(100)
+        self.CancelButton.setMinimumWidth(60)
         self.CancelButton.setText("Отмена")
-        self.CancelButton.setStyleSheet("background-color: red;")
+        self.CancelButton.setStyleSheet("border-radius: 8px;"
+                                        "color: #000000;"
+                                        "background: #ff5757;"
+                                        "font-size: 12px;"
+                                        "border-bottom: 3px solid #ff2424;")
         # init RememberCheckBox parameters
         self.RememberCheckBox.setMaximumHeight(30)
         self.RememberCheckBox.setMinimumHeight(30)
         self.RememberCheckBox.setText("Запомнить меня")
+        self.RememberCheckBox.setStyleSheet("font-size: 12px;")
         # init ShowCheckBox parameters
         self.ShowCheckBox.setMaximumHeight(30)
         self.ShowCheckBox.setMinimumHeight(30)
         self.ShowCheckBox.setText("Показать пароль")
+        self.ShowCheckBox.setStyleSheet("font-size: 12px;")
         # init ForgotPassButton parameters
         self.ForgotPassButton.setText("Забыли пароль?")
         self.ForgotPassButton.setStyleSheet("text-decoration: underline;"
                                             "background-color: rgba(255,255,255,0);"
+                                            "font-size: 12px;"
                                             "border:none;"
                                             "color: blue;")
         self.ForgotPassButton.setMaximumHeight(30)
@@ -90,7 +106,16 @@ class En_Window(QMainWindow, EnWindow):
 
     def clicked_en_b(self):
         self.click_button(self.EntranceButton.text())
-        self.switch_window.emit("1 -> 4")
+        ################################################################################## if user found
+        # if
+        # self.switch_window.emit("1 -> 4")
+        # else
+        m = QMessageBox()  # init
+        m.setWindowTitle("Ошибка 404")  # set title
+        m.setText("Такой пользователь не найден!!!")
+        m.setIcon(QMessageBox.Critical)  # set icon
+        m.setStandardButtons(QMessageBox.Ok)
+        m.exec_()
 
     def clicked_reg_b(self):
         self.click_button(self.RegistrationButton.text())
@@ -104,6 +129,7 @@ class En_Window(QMainWindow, EnWindow):
     def clicked_rem_chb(self, state):
         if state == Qt.Checked:
             self.setWindowTitle('QCheckBox -> remember')
+            ###################################################### сделать запись пользователя в память
         else:
             self.setWindowTitle("Вход в систему")
 
@@ -132,23 +158,37 @@ class Pas_Window(QMainWindow, PasWindow):
         self.setupUi(self)
         self.widgets_adjust()
         self.setWindowTitle("Восстановление пароля")
+        self.setMinimumHeight(270)
+        self.setMaximumHeight(270)
+        self.setMinimumWidth(320)
+        self.setMaximumWidth(320)
 
     def widgets_adjust(self):
         # init AddresslineEdit parameters
-        self.AddresslineEdit.setMaximumHeight(30)
+        # self.AddresslineEdit.setMaximumHeight(30)
         self.AddresslineEdit.setMinimumHeight(30)
         self.AddresslineEdit.setPlaceholderText("Адрес электронной почты")
+        self.AddresslineEdit.setStyleSheet("font-size: 12px;")
         # init ChangePasswordPushButton parameters
-        self.ChangePasswordPushButton.setMaximumHeight(30)
+        # self.ChangePasswordPushButton.setMaximumHeight(30)
         self.ChangePasswordPushButton.setMinimumHeight(30)
-        self.ChangePasswordPushButton.setMinimumWidth(100)
+        self.ChangePasswordPushButton.setMinimumWidth(60)
         self.ChangePasswordPushButton.setText("Сменить пароль")
+        self.ChangePasswordPushButton.setStyleSheet("border-radius: 8px;"
+                                                    "color: #000000;"
+                                                    "background: #d4d2d6;"
+                                                    "font-size: 12px;"
+                                                    "border-bottom: 3px solid #b9b5bd;")
         # init CancelPushButton parameters
-        self.CancelPushButton.setMaximumHeight(30)
+        # self.CancelPushButton.setMaximumHeight(30)
         self.CancelPushButton.setMinimumHeight(30)
-        self.CancelPushButton.setMinimumWidth(100)
+        self.CancelPushButton.setMinimumWidth(60)
         self.CancelPushButton.setText("Отмена")
-        self.CancelPushButton.setStyleSheet("background-color: red;")
+        self.CancelPushButton.setStyleSheet("border-radius: 8px;"
+                                            "color: #000000;"
+                                            "background: #ff5757;"
+                                            "font-size: 12px;"
+                                            "border-bottom: 3px solid #ff2424;")
 
         # actions when buttons clicked
         self.ChangePasswordPushButton.clicked.connect(self.clicked_ch_p_b)
@@ -159,7 +199,16 @@ class Pas_Window(QMainWindow, PasWindow):
 
     def clicked_ch_p_b(self):
         self.click_button(self.ChangePasswordPushButton.text())
-        self.switch_window.emit("2 -> 1")
+        # check email
+        if self.AddresslineEdit.text():
+            self.switch_window.emit("2 -> 1")
+        else:
+            m = QMessageBox()  # init
+            m.setWindowTitle("Ошибка заполнения")  # set title
+            m.setText("Поле 'Адрес электронной почты' не заполнено!")
+            m.setIcon(QMessageBox.Critical)  # set icon
+            m.setStandardButtons(QMessageBox.Ok)
+            m.exec_()
 
     def clicked_c_b(self):
         self.click_button(self.CancelPushButton.text())
@@ -174,6 +223,10 @@ class Reg_Window(QMainWindow, RegWindow):
         self.setupUi(self)
         self.widgets_adjust()
         self.setWindowTitle("Регистрация")
+        self.setMinimumHeight(450)
+        self.setMaximumHeight(450)
+        self.setMinimumWidth(400)
+        self.setMaximumWidth(400)
         self.PasswordlineEdit.setEchoMode(QLineEdit.EchoMode(2))
         self.RepeatlineEdit.setEchoMode(QLineEdit.EchoMode(2))
 
@@ -181,28 +234,46 @@ class Reg_Window(QMainWindow, RegWindow):
         # init NamelineEdit parameters
         self.NamelineEdit.setMaximumHeight(30)
         self.NamelineEdit.setMinimumHeight(30)
+        self.NamelineEdit.setMaximumWidth(380)
         self.NamelineEdit.setPlaceholderText("Имя пользователя")
+        self.NamelineEdit.setStyleSheet("font-size: 12px;")
         # init PasswordlineEdit parameters
         self.PasswordlineEdit.setMaximumHeight(30)
         self.PasswordlineEdit.setMinimumHeight(30)
+        self.PasswordlineEdit.setMaximumWidth(380)
         self.PasswordlineEdit.setPlaceholderText("Пароль")
+        self.PasswordlineEdit.setStyleSheet("font-size: 12px;")
         # init RepeatlineEdit parameters
         self.RepeatlineEdit.setMaximumHeight(30)
         self.RepeatlineEdit.setMinimumHeight(30)
+        self.RepeatlineEdit.setMaximumWidth(380)
         self.RepeatlineEdit.setPlaceholderText("Повторите пароль")
+        self.RepeatlineEdit.setStyleSheet("font-size: 12px;")
+        ########################################################################################## date
         # init DateEdit parameters
-        # self.DateEdit
+        self.DateEdit.setMaximumHeight(30)
+        self.DateEdit.setMinimumHeight(30)
+        self.DateEdit.setMaximumWidth(380)
         # init OkPushButton parameters
         self.OkPushButton.setMaximumHeight(30)
         self.OkPushButton.setMinimumHeight(30)
-        self.OkPushButton.setMinimumWidth(100)
+        self.OkPushButton.setMaximumWidth(120)
         self.OkPushButton.setText("Ок")
+        self.OkPushButton.setStyleSheet("border-radius: 8px;"
+                                        "color: #000000;"
+                                        "background: #d4d2d6;"
+                                        "font-size: 12px;"
+                                        "border-bottom: 3px solid #b9b5bd;")
         # init CancelPushButton parameters
         self.CancelPushButton.setMaximumHeight(30)
         self.CancelPushButton.setMinimumHeight(30)
-        self.CancelPushButton.setMinimumWidth(100)
+        self.CancelPushButton.setMaximumWidth(120)
         self.CancelPushButton.setText("Отмена")
-        self.CancelPushButton.setStyleSheet("background-color: red;")
+        self.CancelPushButton.setStyleSheet("border-radius: 8px;"
+                                            "color: #000000;"
+                                            "background: #ff5757;"
+                                            "font-size: 12px;"
+                                            "border-bottom: 3px solid #ff2424;")
 
         # actions when buttons clicked
         self.OkPushButton.clicked.connect(self.clicked_ok_b)
@@ -213,7 +284,17 @@ class Reg_Window(QMainWindow, RegWindow):
 
     def clicked_ok_b(self):
         self.click_button(self.OkPushButton.text())
-        self.switch_window.emit("3 -> 1")
+        ################################################################## или переход на 4 окно сразу???
+        if self.NamelineEdit.text() and self.PasswordlineEdit.text() and self.RepeatlineEdit.text():
+            self.switch_window.emit("3 -> 1")
+        else:
+            m = QMessageBox()  # init
+            m.setWindowTitle("Ошибка заполнения")  # set title
+            m.setText("Не все поля заполнены!")
+            m.setIcon(QMessageBox.Critical)  # set icon
+            m.setStandardButtons(QMessageBox.Ok)
+            m.exec_()
+
 
 
     def clicked_c_b(self):
