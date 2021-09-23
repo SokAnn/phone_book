@@ -1,8 +1,8 @@
 # Python version 3.8
 import mariadb
-from PyQt5 import uic
+# from PyQt5 import uic
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit
 from PyQt5.QtCore import Qt
 
 from en_win import Ui_MainWindow as EnWindow
@@ -17,25 +17,31 @@ import sys
 def print_hi(name):
     print('Hi, ' + name)
 
+# 1 2 3 4
+choosing_windows = ['', '', '', '']
+
 # entrance window
 class En_Window(QMainWindow, EnWindow):
+    switch_window = QtCore.pyqtSignal(str)
+
     def __init__(self):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.widgets_adjust()
         self.setWindowTitle("Вход в систему")
         self.setMinimumHeight(280)
+        self.PasswordlineEdit.setEchoMode(QLineEdit.EchoMode(2))
         # self.setMinimumWidth(110)
 
     def widgets_adjust(self):
-        # init NameTextEdit parameters
-        self.NameTextEdit.setMaximumHeight(30)
-        self.NameTextEdit.setMinimumHeight(30)
-        self.NameTextEdit.setPlaceholderText("Имя пользователя")
-        # init PasswordTextEdit parameters
-        self.PasswordTextEdit.setMaximumHeight(30)
-        self.PasswordTextEdit.setMinimumHeight(30)
-        self.PasswordTextEdit.setPlaceholderText("Пароль")
+        # init NamelineEdit parameters
+        self.NamelineEdit.setMaximumHeight(30)
+        self.NamelineEdit.setMinimumHeight(30)
+        self.NamelineEdit.setPlaceholderText("Имя пользователя")
+        # init PasswordlineEdit parameters
+        self.PasswordlineEdit.setMaximumHeight(30)
+        self.PasswordlineEdit.setMinimumHeight(30)
+        self.PasswordlineEdit.setPlaceholderText("Пароль")
         # init EntranceButton parameters
         self.EntranceButton.setMaximumHeight(30)
         self.EntranceButton.setMinimumHeight(30)
@@ -84,12 +90,16 @@ class En_Window(QMainWindow, EnWindow):
 
     def clicked_en_b(self):
         self.click_button(self.EntranceButton.text())
+        self.switch_window.emit("1 -> 4")
 
     def clicked_reg_b(self):
         self.click_button(self.RegistrationButton.text())
+        self.switch_window.emit("1 -> 3")
 
     def clicked_c_b(self):
         self.click_button(self.CancelButton.text())
+        self.NamelineEdit.clear()
+        self.PasswordlineEdit.clear()
 
     def clicked_rem_chb(self, state):
         if state == Qt.Checked:
@@ -100,28 +110,34 @@ class En_Window(QMainWindow, EnWindow):
     def clicked_sh_chb(self, state):
         if state == Qt.Checked:
             self.setWindowTitle('QCheckBox -> show')
+            self.PasswordlineEdit.setEchoMode(QLineEdit.EchoMode(0))
         else:
             self.setWindowTitle("Вход в систему")
+            self.PasswordlineEdit.setEchoMode(QLineEdit.EchoMode(2))
 
     def clicked_f_b(self):
-        self.click_button(self.CancelButton.text())
+        self.click_button(self.ForgotPassButton.text())
         self.ForgotPassButton.setStyleSheet("text-decoration: underline;"
                                             "background-color: rgba(255,255,255,0);"
                                             "border:none;"
                                             "color: fuchsia;")
-        
+        self.switch_window.emit("1 -> 2")
+
 
 class Pas_Window(QMainWindow, PasWindow):
+    switch_window = QtCore.pyqtSignal(str)
+
     def __init__(self):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.widgets_adjust()
+        self.setWindowTitle("Восстановление пароля")
 
     def widgets_adjust(self):
-        # init AddressTextEdit parameters
-        self.AddressTextEdit.setMaximumHeight(30)
-        self.AddressTextEdit.setMinimumHeight(30)
-        self.AddressTextEdit.setToolTip("Имя пользователя")
+        # init AddresslineEdit parameters
+        self.AddresslineEdit.setMaximumHeight(30)
+        self.AddresslineEdit.setMinimumHeight(30)
+        self.AddresslineEdit.setPlaceholderText("Адрес электронной почты")
         # init ChangePasswordPushButton parameters
         self.ChangePasswordPushButton.setMaximumHeight(30)
         self.ChangePasswordPushButton.setMinimumHeight(30)
@@ -143,30 +159,37 @@ class Pas_Window(QMainWindow, PasWindow):
 
     def clicked_ch_p_b(self):
         self.click_button(self.ChangePasswordPushButton.text())
+        self.switch_window.emit("2 -> 1")
 
     def clicked_c_b(self):
         self.click_button(self.CancelPushButton.text())
+        self.AddresslineEdit.clear()
 
 
 class Reg_Window(QMainWindow, RegWindow):
+    switch_window = QtCore.pyqtSignal(str)
+
     def __init__(self):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.widgets_adjust()
+        self.setWindowTitle("Регистрация")
+        self.PasswordlineEdit.setEchoMode(QLineEdit.EchoMode(2))
+        self.RepeatlineEdit.setEchoMode(QLineEdit.EchoMode(2))
 
     def widgets_adjust(self):
-        # init NewNameTextEdit parameters
-        self.NewNameTextEdit.setMaximumHeight(30)
-        self.NewNameTextEdit.setMinimumHeight(30)
-        self.NewNameTextEdit.setToolTip("Имя пользователя")
-        # init NewPasswordTextEdit parameters
-        self.NewPasswordTextEdit.setMaximumHeight(30)
-        self.NewPasswordTextEdit.setMinimumHeight(30)
-        self.NewPasswordTextEdit.setToolTip("Пароль")
-        # init RepeatPasswordTextEdit parameters
-        self.RepeatPasswordTextEdit.setMaximumHeight(30)
-        self.RepeatPasswordTextEdit.setMinimumHeight(30)
-        self.RepeatPasswordTextEdit.setToolTip("Повторите пароль")
+        # init NamelineEdit parameters
+        self.NamelineEdit.setMaximumHeight(30)
+        self.NamelineEdit.setMinimumHeight(30)
+        self.NamelineEdit.setPlaceholderText("Имя пользователя")
+        # init PasswordlineEdit parameters
+        self.PasswordlineEdit.setMaximumHeight(30)
+        self.PasswordlineEdit.setMinimumHeight(30)
+        self.PasswordlineEdit.setPlaceholderText("Пароль")
+        # init RepeatlineEdit parameters
+        self.RepeatlineEdit.setMaximumHeight(30)
+        self.RepeatlineEdit.setMinimumHeight(30)
+        self.RepeatlineEdit.setPlaceholderText("Повторите пароль")
         # init DateEdit parameters
         # self.DateEdit
         # init OkPushButton parameters
@@ -190,26 +213,48 @@ class Reg_Window(QMainWindow, RegWindow):
 
     def clicked_ok_b(self):
         self.click_button(self.OkPushButton.text())
+        self.switch_window.emit("3 -> 1")
+
 
     def clicked_c_b(self):
         self.click_button(self.CancelPushButton.text())
+        self.NamelineEdit.clear()
+        self.PasswordlineEdit.clear()
+        self.RepeatlineEdit.clear()
 
+
+class Controller:
+    # def __init__(self): pass
+
+    def select_forms(self, text):
+        if text == "1":
+            self.form1 = En_Window()
+            self.form1.switch_window.connect(self.select_forms)
+            self.form1.show()
+        if text == "1 -> 2":
+            self.form2 = Pas_Window()
+            self.form2.switch_window.connect(self.select_forms)
+            self.form2.show()
+        if text == "1 -> 3":
+            self.form3 = Reg_Window()
+            self.form3.switch_window.connect(self.select_forms)
+            self.form3.show()
+        if text == "1 -> 4":
+            pass
+        if text == "2 -> 1":
+            self.form2.close()
+        if text == "3 -> 1":
+            self.form3.close()
+        if text == "4":
+            pass
 
 def application():
     app = QApplication(sys.argv)
-    window = En_Window()
-    # window = Pas_Window()
-    # window = Reg_Window()
-
-    # window.setWindowTitle("simple window")
-    window.setGeometry(1300, 250, 350, 200)
-    # window.setMinimumHeight(250)
-    # window.setMaximumHeight(250)
-
-    window.show()
+    controller = Controller()
+    # check user -> form1 (user==false) or form4 (user==true)
+    controller.select_forms("1")
     sys.exit(app.exec_())
 
-    pass
 
 if __name__ == '__main__':
     print_hi('PyCharm')

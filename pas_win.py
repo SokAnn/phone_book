@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\any12\PycharmProjects\phone_book1\pas_win.ui'
+# Form implementation generated from reading ui file 'C:\Users\any12\PycharmProjects\phone_book\pas_win.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(324, 274)
+        MainWindow.resize(357, 314)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -23,9 +23,9 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.AddressTextEdit = QtWidgets.QTextEdit(self.verticalLayoutWidget)
-        self.AddressTextEdit.setObjectName("AddressTextEdit")
-        self.verticalLayout.addWidget(self.AddressTextEdit)
+        self.AddresslineEdit = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.AddresslineEdit.setObjectName("AddresslineEdit")
+        self.verticalLayout.addWidget(self.AddresslineEdit)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.ChangePasswordPushButton = QtWidgets.QPushButton(self.verticalLayoutWidget)

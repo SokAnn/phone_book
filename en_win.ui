@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>339</width>
-    <height>318</height>
+    <width>349</width>
+    <height>344</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,17 +20,17 @@
       <x>10</x>
       <y>10</y>
       <width>299</width>
-      <height>284</height>
+      <height>289</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QTextEdit" name="NameTextEdit"/>
+        <widget class="QLineEdit" name="NamelineEdit"/>
        </item>
        <item>
-        <widget class="QTextEdit" name="PasswordTextEdit"/>
+        <widget class="QLineEdit" name="PasswordlineEdit"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">

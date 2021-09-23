@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\any12\PycharmProjects\phone_book1\reg_win.ui'
+# Form implementation generated from reading ui file 'C:\Users\any12\PycharmProjects\phone_book\reg_win.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(466, 488)
+        MainWindow.resize(656, 534)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -23,15 +23,15 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.NewNameTextEdit = QtWidgets.QTextEdit(self.verticalLayoutWidget)
-        self.NewNameTextEdit.setObjectName("NewNameTextEdit")
-        self.verticalLayout.addWidget(self.NewNameTextEdit)
-        self.NewPasswordTextEdit = QtWidgets.QTextEdit(self.verticalLayoutWidget)
-        self.NewPasswordTextEdit.setObjectName("NewPasswordTextEdit")
-        self.verticalLayout.addWidget(self.NewPasswordTextEdit)
-        self.RepeatPasswordTextEdit = QtWidgets.QTextEdit(self.verticalLayoutWidget)
-        self.RepeatPasswordTextEdit.setObjectName("RepeatPasswordTextEdit")
-        self.verticalLayout.addWidget(self.RepeatPasswordTextEdit)
+        self.NamelineEdit = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.NamelineEdit.setObjectName("NamelineEdit")
+        self.verticalLayout.addWidget(self.NamelineEdit)
+        self.PasswordlineEdit = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.PasswordlineEdit.setObjectName("PasswordlineEdit")
+        self.verticalLayout.addWidget(self.PasswordlineEdit)
+        self.RepeatlineEdit = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.RepeatlineEdit.setObjectName("RepeatlineEdit")
+        self.verticalLayout.addWidget(self.RepeatlineEdit)
         self.DateEdit = QtWidgets.QDateEdit(self.verticalLayoutWidget)
         self.DateEdit.setObjectName("DateEdit")
         self.verticalLayout.addWidget(self.DateEdit)

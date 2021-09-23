@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
-    <height>488</height>
+    <width>656</width>
+    <height>534</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,13 +25,13 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QTextEdit" name="NewNameTextEdit"/>
+      <widget class="QLineEdit" name="NamelineEdit"/>
      </item>
      <item>
-      <widget class="QTextEdit" name="NewPasswordTextEdit"/>
+      <widget class="QLineEdit" name="PasswordlineEdit"/>
      </item>
      <item>
-      <widget class="QTextEdit" name="RepeatPasswordTextEdit"/>
+      <widget class="QLineEdit" name="RepeatlineEdit"/>
      </item>
      <item>
       <widget class="QDateEdit" name="DateEdit"/>
