@@ -9,7 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtWidgets import QMainWindow, QLineEdit, QMessageBox
+from PyQt5.QtCore import QDate
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -62,3 +63,109 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.OkPushButton.setText(_translate("MainWindow", "PushButton"))
         self.CancelPushButton.setText(_translate("MainWindow", "PushButton"))
+
+class Reg_Window(QMainWindow, Ui_MainWindow):
+    switch_window = QtCore.pyqtSignal(str)
+
+    def __init__(self):
+        QMainWindow.__init__(self)
+        self.setupUi(self)
+        self.widgets_adjust()
+        self.setWindowTitle("Регистрация")
+        self.setMinimumHeight(400)
+        self.setMaximumHeight(400)
+        self.setMinimumWidth(360)
+        self.setMaximumWidth(360)
+        self.PasswordlineEdit.setEchoMode(QLineEdit.EchoMode(2))
+        self.RepeatlineEdit.setEchoMode(QLineEdit.EchoMode(2))
+        self.DatelineEdit.setReadOnly(True)
+
+    def widgets_adjust(self):
+        # init NamelineEdit parameters
+        self.NamelineEdit.setMaximumHeight(30)
+        self.NamelineEdit.setMinimumHeight(30)
+        self.NamelineEdit.setMaximumWidth(380)
+        self.NamelineEdit.setPlaceholderText("Имя пользователя")
+        self.NamelineEdit.setStyleSheet("font-size: 12px;")
+        # init PasswordlineEdit parameters
+        self.PasswordlineEdit.setMaximumHeight(30)
+        self.PasswordlineEdit.setMinimumHeight(30)
+        self.PasswordlineEdit.setMaximumWidth(380)
+        self.PasswordlineEdit.setPlaceholderText("Пароль")
+        self.PasswordlineEdit.setStyleSheet("font-size: 12px;")
+        # init RepeatlineEdit parameters
+        self.RepeatlineEdit.setMaximumHeight(30)
+        self.RepeatlineEdit.setMinimumHeight(30)
+        self.RepeatlineEdit.setMaximumWidth(380)
+        self.RepeatlineEdit.setPlaceholderText("Повторите пароль")
+        self.RepeatlineEdit.setStyleSheet("font-size: 12px;")
+        # init DatelineEdit & DateEdit parameters
+        self.DatelineEdit.setMaximumHeight(30)
+        self.DatelineEdit.setMinimumHeight(30)
+        self.DatelineEdit.setMaximumWidth(290)
+        self.DatelineEdit.setPlaceholderText("Дата рождения")
+        self.DatelineEdit.setStyleSheet("font-size: 12px;")
+        self.DateEdit.setMaximumHeight(30)
+        self.DateEdit.setMinimumHeight(30)
+        self.DateEdit.setMaximumWidth(90)
+        self.DateEdit.setDate(QDate.currentDate())
+        self.DateEdit.setStyleSheet("font-size: 12px;")
+        # init OkPushButton parameters
+        self.OkPushButton.setMaximumHeight(30)
+        self.OkPushButton.setMinimumHeight(30)
+        self.OkPushButton.setMaximumWidth(120)
+        self.OkPushButton.setText("Ок")
+        self.OkPushButton.setStyleSheet("border-radius: 8px;"
+                                        "color: #000000;"
+                                        "background: #d4d2d6;"
+                                        "font-size: 12px;"
+                                        "border-bottom: 3px solid #b9b5bd;")
+        # init CancelPushButton parameters
+        self.CancelPushButton.setMaximumHeight(30)
+        self.CancelPushButton.setMinimumHeight(30)
+        self.CancelPushButton.setMaximumWidth(120)
+        self.CancelPushButton.setText("Отмена")
+        self.CancelPushButton.setStyleSheet("border-radius: 8px;"
+                                            "color: #000000;"
+                                            "background: #ff5757;"
+                                            "font-size: 12px;"
+                                            "border-bottom: 3px solid #ff2424;")
+
+        # actions when buttons clicked
+        self.DateEdit.dateChanged.connect(self.date_changed)
+        self.OkPushButton.clicked.connect(self.clicked_ok_b)
+        self.CancelPushButton.clicked.connect(self.clicked_c_b)
+
+    def date_changed(self):
+        self.DatelineEdit.setText(self.DateEdit.text())
+
+    def click_button(self, label):
+        print('The \"', label, '\" button is pressed!')
+
+    def clicked_ok_b(self):
+        self.click_button(self.OkPushButton.text())
+        if self.NamelineEdit.text() and self.PasswordlineEdit.text() and self.RepeatlineEdit.text() and self.DatelineEdit.text():
+            if self.PasswordlineEdit.text() != self.RepeatlineEdit.text():
+                m = QMessageBox()  # init
+                m.setWindowTitle("Ошибка заполнения")  # set title
+                m.setText("Пароли не совпадают!")
+                m.setIcon(QMessageBox.Critical)  # set icon
+                m.setStandardButtons(QMessageBox.Ok)
+                m.exec_()
+            else:
+                self.switch_window.emit("3 -> 4")
+        else:
+            m = QMessageBox()  # init
+            m.setWindowTitle("Ошибка заполнения")  # set title
+            m.setText("Не все поля заполнены!")
+            m.setIcon(QMessageBox.Critical)  # set icon
+            m.setStandardButtons(QMessageBox.Ok)
+            m.exec_()
+
+    def clicked_c_b(self):
+        self.click_button(self.CancelPushButton.text())
+        self.NamelineEdit.clear()
+        self.PasswordlineEdit.clear()
+        self.RepeatlineEdit.clear()
+        self.DateEdit.setDate(QDate.currentDate())
+        self.DatelineEdit.clear()
