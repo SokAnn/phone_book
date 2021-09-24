@@ -48,5 +48,3 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Hello user!"))
         self.UserButton.setText(_translate("MainWindow", "PushButton"))
         self.ExitButton.setText(_translate("MainWindow", "PushButton"))
-
-

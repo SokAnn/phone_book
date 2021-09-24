@@ -9,7 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QLineEdit, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit, QMessageBox
+from PyQt5.QtCore import QDate
 import pickle
 
 class Ui_MainWindow(object):
@@ -214,4 +215,3 @@ class En_Window(QMainWindow, Ui_MainWindow):
                                             "border:none;"
                                             "color: fuchsia;")
         self.switch_window.emit("1 -> 2")
-

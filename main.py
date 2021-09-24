@@ -3,7 +3,7 @@ import mariadb
 # from PyQt5 import uic
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit, QMessageBox
-from PyQt5.QtCore import QDate
+from PyQt5.QtCore import QDate, Qt
 
 from en_win import En_Window
 from pas_win import Pas_Window
@@ -20,7 +20,6 @@ def print_hi(name):
     print('Hi, ' + name)
 
 
-
 class Main_Win(QMainWindow, MainWindow):
     switch_window = QtCore.pyqtSignal(str)
 
@@ -29,7 +28,7 @@ class Main_Win(QMainWindow, MainWindow):
         self.setupUi(self)
         self.widgets_adjust()
         self.setWindowTitle("Телефонная книжка")
-        ##############################################################################################
+        ################################################################################
         # self.setMinimumHeight(500)
         # self.setMaximumHeight(500)
         # self.setMinimumWidth(550)
@@ -44,8 +43,6 @@ class Main_Win(QMainWindow, MainWindow):
         self.label.setText("Зашли как ")
         self.label.setStyleSheet("font-size: 12px;")
         # init UserButton parameters
-        #############################################################        поменять текс пользователя
-        # self.UserButton.setText("Admin")
         self.UserButton.setStyleSheet("text-decoration: underline;"
                                       "background-color: rgba(255,255,255,0);"
                                       "font-size: 12px;"
@@ -58,9 +55,50 @@ class Main_Win(QMainWindow, MainWindow):
                                       "background: #d4d2d6;"
                                       "font-size: 12px;"
                                       "border-bottom: 3px solid #b9b5bd;")
+        # init AddButton parameters
+        self.AddButton.setMinimumHeight(30)
+        self.AddButton.setMaximumWidth(100)
+        self.AddButton.setText("Добавить")
+        self.AddButton.setStyleSheet("border-radius: 8px;"
+                                     "color: #000000;"
+                                     "background: #d4d2d6;"
+                                     "font-size: 12px;"
+                                     "border-bottom: 3px solid #b9b5bd;")
+        # self.AddButton.setStyleSheet("font-size: 12px;")
+        # init EditButton parameters
+        self.EditButton.setMinimumHeight(30)
+        self.EditButton.setMaximumWidth(100)
+        self.EditButton.setText("Изменить")
+        self.EditButton.setStyleSheet("border-radius: 8px;"
+                                      "color: #000000;"
+                                      "background: #d4d2d6;"
+                                      "font-size: 12px;"
+                                      "border-bottom: 3px solid #b9b5bd;")
+        # init DelButton parameters
+        self.DelButton.setMinimumHeight(30)
+        self.DelButton.setMaximumWidth(100)
+        self.DelButton.setText("Удалить")
+        self.DelButton.setStyleSheet("border-radius: 8px;"
+                                     "color: #000000;"
+                                     "background: #d4d2d6;"
+                                     "font-size: 12px;"
+                                     "border-bottom: 3px solid #b9b5bd;")
+        ###############################################################################
+        # init tables: tableWidget - tableWidget_14
+        for table in (self.tableWidget, self.tableWidget_2, self.tableWidget_3,
+                      self.tableWidget_4, self.tableWidget_5, self.tableWidget_6,
+                      self.tableWidget_7, self.tableWidget_8, self.tableWidget_9,
+                      self.tableWidget_10, self.tableWidget_11, self.tableWidget_12,
+                      self.tableWidget_13, self.tableWidget_14):
+            table.setStyleSheet("font-size: 12px;")
+            table.setColumnCount(3)
+            table.setHorizontalHeaderLabels(["Имя", "Телефон", "Дата рождения"])
 
         # actions when buttons clicked
         self.ExitButton.clicked.connect(self.clicked_exit)
+        self.AddButton.clicked.connect(self.clicked_add)
+        self.EditButton.clicked.connect(self.clicked_edit)
+        self.DelButton.clicked.connect(self.clicked_del)
 
     def click_button(self, label):
         print('The \"', label, '\" button is pressed!')
@@ -70,6 +108,18 @@ class Main_Win(QMainWindow, MainWindow):
         self.switch_window.emit("4 -> 1")
         with open('data.pickle', 'wb') as f:
             pickle.dump(['', ''], f)
+
+    def clicked_add(self):
+        self.click_button(self.AddButton.text())
+        pass
+
+    def clicked_edit(self):
+        self.click_button(self.EditButton.text())
+        pass
+
+    def clicked_del(self):
+        self.click_button(self.DelButton.text())
+        pass
 
 class Controller:
     def __init__(self, user):
@@ -121,7 +171,6 @@ class Controller:
 
 def application():
     app = QApplication(sys.argv)
-
     # load last saved user
     with open('data.pickle', 'rb') as f:
         User_Pas = pickle.load(f)
@@ -136,7 +185,7 @@ def application():
 
 if __name__ == '__main__':
     print_hi('PyCharm')
-    # application()
+    application()
 
     # DB
     conn = mariadb.connect(user='root', password='root', host='localhost', port=3306, database="DB_users")
@@ -144,7 +193,9 @@ if __name__ == '__main__':
 
     cur.execute("SELECT * FROM db_users.users")
     # print(len(cur))
+    list_users = []
     for Name, Telephone, Bdate in cur:
         print(f"Name: {Name}, \nTelephone: {Telephone}, \nDate: {Bdate}\n")
-
-
+        list_users.append([Name, Telephone, Bdate])
+    list_users.sort()
+    print(list_users)
