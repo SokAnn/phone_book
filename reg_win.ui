@@ -6,37 +6,28 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>656</width>
-    <height>534</height>
+    <width>360</width>
+    <height>413</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
+   <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>441</width>
-      <height>469</height>
+      <width>341</width>
+      <height>381</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QLineEdit" name="NamelineEdit"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="PasswordlineEdit"/>
-     </item>
-     <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="2" column="0">
       <widget class="QLineEdit" name="RepeatlineEdit"/>
      </item>
-     <item>
-      <widget class="QDateEdit" name="DateEdit"/>
-     </item>
-     <item>
+     <item row="4" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QPushButton" name="OkPushButton">
@@ -49,6 +40,29 @@
         <widget class="QPushButton" name="CancelPushButton">
          <property name="text">
           <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLineEdit" name="NamelineEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLineEdit" name="PasswordlineEdit"/>
+     </item>
+     <item row="3" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLineEdit" name="DatelineEdit"/>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="DateEdit">
+         <property name="calendarPopup">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

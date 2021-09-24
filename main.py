@@ -3,7 +3,7 @@ import mariadb
 # from PyQt5 import uic
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit, QMessageBox
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QDate
 
 from en_win import Ui_MainWindow as EnWindow
 from pas_win import Ui_MainWindow as PasWindow
@@ -11,6 +11,7 @@ from reg_win import Ui_MainWindow as RegWindow
 # from main_window import Ui_MainWindow as main_Form
 
 import sys
+import pickle
 
 # Form, Window = uic.loadUiType("window.ui")
 
@@ -106,16 +107,27 @@ class En_Window(QMainWindow, EnWindow):
 
     def clicked_en_b(self):
         self.click_button(self.EntranceButton.text())
-        ################################################################################## if user found
-        # if
-        # self.switch_window.emit("1 -> 4")
-        # else
-        m = QMessageBox()  # init
-        m.setWindowTitle("Ошибка 404")  # set title
-        m.setText("Такой пользователь не найден!!!")
-        m.setIcon(QMessageBox.Critical)  # set icon
-        m.setStandardButtons(QMessageBox.Ok)
-        m.exec_()
+
+        # save user
+        if self.RememberCheckBox.isChecked():
+            with open('data.pickle', 'wb') as f:
+                pickle.dump([self.NamelineEdit.text(), self.PasswordlineEdit.text()], f)
+                print([self.NamelineEdit.text(), self.PasswordlineEdit.text()])
+
+        # # load saved user
+        # with open('data.pickle', 'rb') as f:
+        #     User_Pas = pickle.load(f)
+        #     print(User_Pas)
+
+        if True if self.NamelineEdit.text() and self.PasswordlineEdit.text() else False:
+            self.switch_window.emit("1 -> 4")
+        else:
+            m = QMessageBox()  # init
+            m.setWindowTitle("Ошибка 404")  # set title
+            m.setText("Такой пользователь не найден!!!")
+            m.setIcon(QMessageBox.Critical)  # set icon
+            m.setStandardButtons(QMessageBox.Ok)
+            m.exec_()
 
     def clicked_reg_b(self):
         self.click_button(self.RegistrationButton.text())
@@ -126,15 +138,14 @@ class En_Window(QMainWindow, EnWindow):
         self.NamelineEdit.clear()
         self.PasswordlineEdit.clear()
 
-    def clicked_rem_chb(self, state):
-        if state == Qt.Checked:
+    def clicked_rem_chb(self):
+        if self.RememberCheckBox.isChecked():
             self.setWindowTitle('QCheckBox -> remember')
-            ###################################################### сделать запись пользователя в память
         else:
             self.setWindowTitle("Вход в систему")
 
-    def clicked_sh_chb(self, state):
-        if state == Qt.Checked:
+    def clicked_sh_chb(self):
+        if self.ShowCheckBox.isChecked():
             self.setWindowTitle('QCheckBox -> show')
             self.PasswordlineEdit.setEchoMode(QLineEdit.EchoMode(0))
         else:
@@ -165,12 +176,10 @@ class Pas_Window(QMainWindow, PasWindow):
 
     def widgets_adjust(self):
         # init AddresslineEdit parameters
-        # self.AddresslineEdit.setMaximumHeight(30)
         self.AddresslineEdit.setMinimumHeight(30)
         self.AddresslineEdit.setPlaceholderText("Адрес электронной почты")
         self.AddresslineEdit.setStyleSheet("font-size: 12px;")
         # init ChangePasswordPushButton parameters
-        # self.ChangePasswordPushButton.setMaximumHeight(30)
         self.ChangePasswordPushButton.setMinimumHeight(30)
         self.ChangePasswordPushButton.setMinimumWidth(60)
         self.ChangePasswordPushButton.setText("Сменить пароль")
@@ -180,7 +189,6 @@ class Pas_Window(QMainWindow, PasWindow):
                                                     "font-size: 12px;"
                                                     "border-bottom: 3px solid #b9b5bd;")
         # init CancelPushButton parameters
-        # self.CancelPushButton.setMaximumHeight(30)
         self.CancelPushButton.setMinimumHeight(30)
         self.CancelPushButton.setMinimumWidth(60)
         self.CancelPushButton.setText("Отмена")
@@ -223,12 +231,13 @@ class Reg_Window(QMainWindow, RegWindow):
         self.setupUi(self)
         self.widgets_adjust()
         self.setWindowTitle("Регистрация")
-        self.setMinimumHeight(450)
-        self.setMaximumHeight(450)
-        self.setMinimumWidth(400)
-        self.setMaximumWidth(400)
+        self.setMinimumHeight(400)
+        self.setMaximumHeight(400)
+        self.setMinimumWidth(360)
+        self.setMaximumWidth(360)
         self.PasswordlineEdit.setEchoMode(QLineEdit.EchoMode(2))
         self.RepeatlineEdit.setEchoMode(QLineEdit.EchoMode(2))
+        self.DatelineEdit.setReadOnly(True)
 
     def widgets_adjust(self):
         # init NamelineEdit parameters
@@ -249,11 +258,17 @@ class Reg_Window(QMainWindow, RegWindow):
         self.RepeatlineEdit.setMaximumWidth(380)
         self.RepeatlineEdit.setPlaceholderText("Повторите пароль")
         self.RepeatlineEdit.setStyleSheet("font-size: 12px;")
-        ########################################################################################## date
-        # init DateEdit parameters
+        # init DatelineEdit & DateEdit parameters
+        self.DatelineEdit.setMaximumHeight(30)
+        self.DatelineEdit.setMinimumHeight(30)
+        self.DatelineEdit.setMaximumWidth(290)
+        self.DatelineEdit.setPlaceholderText("Дата рождения")
+        self.DatelineEdit.setStyleSheet("font-size: 12px;")
         self.DateEdit.setMaximumHeight(30)
         self.DateEdit.setMinimumHeight(30)
-        self.DateEdit.setMaximumWidth(380)
+        self.DateEdit.setMaximumWidth(90)
+        self.DateEdit.setDate(QDate.currentDate())
+        self.DateEdit.setStyleSheet("font-size: 12px;")
         # init OkPushButton parameters
         self.OkPushButton.setMaximumHeight(30)
         self.OkPushButton.setMinimumHeight(30)
@@ -276,17 +291,29 @@ class Reg_Window(QMainWindow, RegWindow):
                                             "border-bottom: 3px solid #ff2424;")
 
         # actions when buttons clicked
+        self.DateEdit.dateChanged.connect(self.date_changed)
         self.OkPushButton.clicked.connect(self.clicked_ok_b)
         self.CancelPushButton.clicked.connect(self.clicked_c_b)
+
+    def date_changed(self):
+        self.DatelineEdit.setText(self.DateEdit.text())
 
     def click_button(self, label):
         print('The \"', label, '\" button is pressed!')
 
     def clicked_ok_b(self):
         self.click_button(self.OkPushButton.text())
-        ################################################################## или переход на 4 окно сразу???
-        if self.NamelineEdit.text() and self.PasswordlineEdit.text() and self.RepeatlineEdit.text():
-            self.switch_window.emit("3 -> 1")
+        if self.NamelineEdit.text() and self.PasswordlineEdit.text() and self.RepeatlineEdit.text() and self.DatelineEdit.text():
+            if self.PasswordlineEdit.text() != self.RepeatlineEdit.text():
+                m = QMessageBox()  # init
+                m.setWindowTitle("Ошибка заполнения")  # set title
+                m.setText("Пароли не совпадают!")
+                m.setIcon(QMessageBox.Critical)  # set icon
+                m.setStandardButtons(QMessageBox.Ok)
+                m.exec_()
+            else:
+                ################################################################## или переход на 4 окно сразу???
+                self.switch_window.emit("3 -> 1")
         else:
             m = QMessageBox()  # init
             m.setWindowTitle("Ошибка заполнения")  # set title
@@ -295,13 +322,13 @@ class Reg_Window(QMainWindow, RegWindow):
             m.setStandardButtons(QMessageBox.Ok)
             m.exec_()
 
-
-
     def clicked_c_b(self):
         self.click_button(self.CancelPushButton.text())
         self.NamelineEdit.clear()
         self.PasswordlineEdit.clear()
         self.RepeatlineEdit.clear()
+        self.DateEdit.setDate(QDate.currentDate())
+        self.DatelineEdit.clear()
 
 
 class Controller:
@@ -328,6 +355,8 @@ class Controller:
             self.form3.close()
         if text == "4":
             pass
+        if text == "4 -> 1":
+            pass
 
 def application():
     app = QApplication(sys.argv)
@@ -339,7 +368,10 @@ def application():
 
 if __name__ == '__main__':
     print_hi('PyCharm')
-    print('test')
+    # print('test pickle')
+    # name_user = 'Admin'
+    # with open('data.pickle', 'wb') as f:
+    #     pickle.dump(name_user, f)
     application()
 
 
