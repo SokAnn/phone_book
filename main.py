@@ -253,6 +253,7 @@ class Controller:
                 m.exec_()
         if text == "4 -> 1":
             self.form4.close()
+            self.list_logs = functions_db.work_with_DB_logins(self.cur, "SELECT * FROM db_users.logins")
             self.form1 = En_Window(self.list_logs)
             self.form1.switch_window.connect(self.select_forms)
             self.form1.show()
@@ -311,3 +312,4 @@ def application():
 if __name__ == '__main__':
     print_hi('PyCharm')
     application()
+
