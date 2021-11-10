@@ -1,5 +1,6 @@
 import datetime
 
+
 # get list of users with telephones
 def work_with_DB_users(curs, request):
     curs.execute(request)
@@ -8,6 +9,7 @@ def work_with_DB_users(curs, request):
         list_db.append([Name, Telephone, Bdate])
     list_db.sort()
     return list_db
+
 
 # get list of users with passwords
 def work_with_DB_logins(curs, request):
@@ -18,9 +20,11 @@ def work_with_DB_logins(curs, request):
     list_db.sort()
     return list_db
 
+
 def formating_date(str_date):
     result = str_date[6:] + '-' + str_date[3:5] + '-' + str_date[0:2]
     return result
+
 
 def get_BDate(users, now, week):
     res = []

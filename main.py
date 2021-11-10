@@ -15,6 +15,7 @@ import pickle
 import functions_db
 import datetime
 
+
 def print_hi(name):
     print('Hi, ' + name)
 
@@ -312,4 +313,3 @@ def application():
 if __name__ == '__main__':
     print_hi('PyCharm')
     application()
-
